@@ -11,10 +11,10 @@ from tensorflow.keras.models import load_model
 from tensorflow.keras.preprocessing.image import img_to_array, load_img
 import traceback
 from efficientnet_pytorch import EfficientNet
-from torch.serialization import add_safe_globals
+#from torch.serialization import add_safe_globals
 
 # Add EfficientNet to safe globals to allow loading the model with weights_only=True
-add_safe_globals([EfficientNet])
+#add_safe_globals([EfficientNet])
 
 app = Flask(__name__)
 app.config['UPLOAD_FOLDER'] = 'static/uploads'
@@ -62,6 +62,7 @@ def rebuild_densenet_model(weights_path=None):
         try:
             # Try to load weights directly (might work for some weights)
             model.load_weights(weights_path)
+            #print("hello")
             print("Successfully loaded weights directly")
         except:
             try:
@@ -138,7 +139,7 @@ def load_models():
         
         print("Attempting to load DenseNet121 model...")
         try:
-            densenet_model = load_model('models/Densenet121.h5')
+            densenet_model = load_model('models/DenseNet121.h5')
             print("DenseNet121 model loaded successfully.")
         except Exception as e:
             print(f"Error loading DenseNet121 model: {e}")
@@ -233,6 +234,12 @@ def predict_image(img_path):
         
         # Get predictions from DenseNet121 (TensorFlow)
         try:
+            # Load and preprocess image for TensorFlow model
+            img_tf = load_img(img_path, target_size=(256, 256))
+            img_array = img_to_array(img_tf)
+            img_array = np.expand_dims(img_array, axis=0)
+            img_array = img_array / 255.0  # Normalize to [0,1]
+            
             densenet_pred = densenet_model.predict(img_array)
             if isinstance(densenet_pred, np.ndarray) and densenet_pred.size == 1:
                 densenet_prob = float(densenet_pred[0][0])

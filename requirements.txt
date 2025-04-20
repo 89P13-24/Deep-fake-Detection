@@ -3,3 +3,7 @@ torch
 torchvision
 pillow
 pretrainedmodels
+facenet-pytorch
+tensorflow
+efficientnet_pytorch
+numpy
