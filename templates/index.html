@@ -90,12 +90,12 @@
                 
                 <div class="space-y-2 text-sm">
                     <div class="flex justify-between">
-                        <span>Xception Model:</span>
-                        <span id="xception-confidence"></span>
+                        <span>DenseNet121 Model:</span>
+                        <span id="densenet-confidence"></span>
                     </div>
                     <div class="flex justify-between">
-                        <span>ResNet Model:</span>
-                        <span id="resnet-confidence"></span>
+                        <span>EfficientNetB0 Model:</span>
+                        <span id="efficientnet-confidence"></span>
                     </div>
                     <div class="flex justify-between">
                         <span>Combined Score:</span>
@@ -209,7 +209,7 @@
                         return;
                     }
                     
-                    // Display results - Remember 1 = Fake, 0 = Real in your model
+                    // Display results - Remember now 1 = Real, 0 = Fake in your model
                     document.getElementById('result-heading').textContent = data.prediction;
                     document.getElementById('result-heading').className = 
                         data.prediction === 'Real' ? 'text-2xl font-bold mb-4 text-center text-green-600' : 'text-2xl font-bold mb-4 text-center text-red-600';
@@ -222,12 +222,12 @@
                     gaugeFill.style.backgroundColor = data.prediction === 'Fake' ? '#ef4444' : '#10b981';
                     
                     // Display model confidences
-                    document.getElementById('xception-confidence').textContent = 
-                        `${(data.xception_fake_prob * 100).toFixed(2)}%`;
-                    document.getElementById('resnet-confidence').textContent = 
-                        `${(data.resnet_fake_prob * 100).toFixed(2)}%`;
+                    document.getElementById('densenet-confidence').textContent = 
+                        `${(data.densenet_fake_prob * 100).toFixed(2)}%`;
+                    document.getElementById('efficientnet-confidence').textContent = 
+                        `${(data.efficientnet_fake_prob * 100).toFixed(2)}%`;
                     document.getElementById('combined-confidence').textContent = 
-                        `${(data.combined_fake_prob * 100).toFixed(2)}%`;
+                        `${(data.fake_probability * 100).toFixed(2)}%`;
                     
                     resultCard.style.display = 'block';
                 })
